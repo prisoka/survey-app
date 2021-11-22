@@ -23,17 +23,14 @@ passport.use(
       callbackURL: "/auth/google/callback",
       proxy: true, //relative path telling googleStrategy to handle the case when req runs into any proxy (heroku proxy)
     },
-    (accessToken, refreshToken, profile, done) => {
-      User.findOne({ googleId: profile.id }).then((userFound) => {
-        if (userFound) {
-          // console.log("User already exists");
-          done(null, userFound);
-        } else {
-          new User({ googleId: profile.id })
-            .save()
-            .then((user) => done(null, user));
-        }
-      });
+    async (accessToken, refreshToken, profile, done) => {
+      const userFound = await User.findOne({ googleId: profile.id });
+      if (userFound) {
+        done(null, userFound);
+      } else {
+        const user = await new User({ googleId: profile.id }).save();
+        done(null, user);
+      }
     }
   )
 );
