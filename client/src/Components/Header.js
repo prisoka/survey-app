@@ -1,25 +1,48 @@
-import React, { useState } from "react";
+import React from "react";
+import { connect } from "react-redux";
 
-const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const Header = (props) => {
+  const renderNavButtons = () => {
+    switch (props.auth) {
+      case null:
+        return;
+      case false:
+        return (
+          <ul id="nav-mobile" className="right">
+            <li>
+              <a href="/auth/google">Login with Google</a>
+            </li>
+          </ul>
+        );
+      default:
+        return (
+          <ul id="nav-mobile" className="right">
+            <li>
+              <a>Available credits: 10</a>
+            </li>
+            <li>
+              <a>ADD Credits</a>
+            </li>
+            <li>
+              <a href="/api/logout">Logout</a>
+            </li>
+          </ul>
+        );
+    }
+  };
+
   return (
     <nav>
       <div className="nav-wrapper">
         <a className="left brand-logo">Survey APP</a>
-        <ul id="nav-mobile" className="right">
-          {isLoggedIn ? (
-            <li>
-              <a href="">Logout</a>
-            </li>
-          ) : (
-            <li>
-              <a href="">Login with Google</a>
-            </li>
-          )}
-        </ul>
+        {renderNavButtons()}
       </div>
     </nav>
   );
 };
 
-export default Header;
+function mapStateToProps(state) {
+  return { auth: state.auth };
+}
+
+export default connect(mapStateToProps)(Header);
