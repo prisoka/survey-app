@@ -5,9 +5,7 @@ const Header = () => {
   return (
     <nav>
       <div className="nav-wrapper">
-        <a href="#" className="left brand-logo">
-          Survey APP
-        </a>
+        <a className="left brand-logo">Survey APP</a>
         <ul id="nav-mobile" className="right">
           {isLoggedIn ? (
             <li>
