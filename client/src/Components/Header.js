@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Header = (props) => {
   const renderNavButtons = () => {
@@ -34,7 +35,9 @@ const Header = (props) => {
   return (
     <nav>
       <div className="nav-wrapper">
-        <a className="left brand-logo">Survey APP</a>
+        <Link to={props.auth ? "/surveys" : "/"} className="left brand-logo">
+          Survey APP
+        </Link>
         {renderNavButtons()}
       </div>
     </nav>
